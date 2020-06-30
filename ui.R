@@ -1,10 +1,8 @@
 library(shiny)
-library(shinyjs)
 library(leaflet)
 
 shinyUI(
   navbarPage(
-    useShinyjs(),
     tags$head(includeCSS("./www/mapstyles.css")),
     tags$head(
     tags$style(HTML('.navbar-nav, .navbar-brand{padding-top:7px;
