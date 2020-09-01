@@ -58,8 +58,8 @@ shinyUI(
                               inputId = 'park',
                               label = h5('Zoom to a park:'),
                               choices = c("Choose a park" = "", 
-                                          "APCO", "BOWA", "COLO", "FRSP", "GETT", 
-                                          "GEWA", "HOFU", "PETE", "RICH", "THST", "VAFO"
+                                          "APCO", "BOWA", "COLO", "FRSP", "GETT", "GEWA",
+                                          "HOFU", "PETE", "RICH", "SAHI", "THST", "VAFO"
                               ),
                               selected = NULL
                             )
