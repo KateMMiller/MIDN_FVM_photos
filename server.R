@@ -23,17 +23,48 @@ shiny_server <- function(session, input, output){
       target='_blank'>Improve Park Tiles</a>"
     )
   
+  NPSbasic = "https://atlas-stg.geoplatform.gov/styles/v1/atlas-user/ck58pyquo009v01p99xebegr9/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiYXRsYXMtdXNlciIsImEiOiJjazFmdGx2bjQwMDAwMG5wZmYwbmJwbmE2In0.lWXK2UexpXuyVitesLdwUg"
+  
+  NPSimagery = "https://atlas-stg.geoplatform.gov/styles/v1/atlas-user/ck72fwp2642dv07o7tbqinvz4/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiYXRsYXMtdXNlciIsImEiOiJjazFmdGx2bjQwMDAwMG5wZmYwbmJwbmE2In0.lWXK2UexpXuyVitesLdwUg"
+  
+  NPSslate = "https://atlas-stg.geoplatform.gov/styles/v1/atlas-user/ck5cpvc2e0avf01p9zaw4co8o/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiYXRsYXMtdXNlciIsImEiOiJjazFmdGx2bjQwMDAwMG5wZmYwbmJwbmE2In0.lWXK2UexpXuyVitesLdwUg"
+  
+  NPSlight = "https://atlas-stg.geoplatform.gov/styles/v1/atlas-user/ck5cpia2u0auf01p9vbugvcpv/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiYXRsYXMtdXNlciIsImEiOiJjazFmdGx2bjQwMDAwMG5wZmYwbmJwbmE2In0.lWXK2UexpXuyVitesLdwUg"
+
   
   output$forestMap <- renderLeaflet({
     leaflet() %>% 
-      addTiles(urlTemplate = "//{s}.tiles.mapbox.com/v4/nps.2yxv8n84,nps.jhd2e8lb/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibnBzIiwiYSI6IkdfeS1OY1UifQ.K8Qn5ojTw4RV1GwBlsci-Q",
-               attribution = NPSAttrib,
-               options = tileOptions(minZoom = 6.5)) %>%
-      setView(lng = meanLong, lat = meanLat, zoom = 3) %>% 
+      setView(lng = -76.35, lat = 38.6, zoom = 6) %>% 
       setMaxBounds(lng1 = -73.25,
                    lng2 = -80.2,
                    lat1 = 41.03,
-                   lat2 = 36.9) 
+                   lat2 = 36.9) %>% 
+      addTiles(
+        group = "Map",
+        urlTemplate = NPSbasic,
+        attribution = NPSAttrib) %>%
+      addTiles(
+        group = "Imagery",
+        urlTemplate = NPSimagery,
+        attribution = NPSAttrib) %>%
+      addTiles(
+        group = "Light",
+        urlTemplate = NPSlight,
+        attribution = NPSAttrib,
+        options = tileOptions(minZoom = 8)
+      ) %>%
+      addTiles(
+        group = "Slate",
+        urlTemplate = NPSslate,
+        attribution = NPSAttrib,
+        options = tileOptions(minZoom = 8)
+      ) %>%
+      addLayersControl(
+        map = .,
+        baseGroups = c("Map", "Imagery", "Light", "Slate"),
+        options = layersControlOptions(collapsed = T)
+      ) 
+
   })
   
   # Zoom to a plot
