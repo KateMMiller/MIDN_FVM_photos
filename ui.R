@@ -71,6 +71,12 @@ shinyUI(
                )
                ),
         
+        tags$div(title = "Reset the Map",
+                 actionButton('reset_view', "Reset Map", 
+                              style="color:white;background-color: #5F9EA0; 
+                         border-color:#436e70;font-size:11px"))
+      ),
+        
         column(10, style = "padding: 1px 20px 10px 5px", 
                tags$div(title = "Map of Forest Plots",
                         div(leafletOutput("forestMap", 
