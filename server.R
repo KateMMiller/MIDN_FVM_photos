@@ -30,22 +30,18 @@ shiny_server <- function(session, input, output){
                    lat2 = 36.9) %>% 
       addTiles(
         group = "Map",
-        urlTemplate = NPSbasic,
-        attribution = NPSAttrib) %>%
+        urlTemplate = NPSbasic) %>%
       addTiles(
         group = "Imagery",
-        urlTemplate = NPSimagery,
-        attribution = NPSAttrib) %>%
+        urlTemplate = NPSimagery) %>%
       addTiles(
         group = "Light",
         urlTemplate = NPSlight,
-        attribution = NPSAttrib,
         options = tileOptions(minZoom = 8)
       ) %>%
       addTiles(
         group = "Slate",
         urlTemplate = NPSslate,
-        attribution = NPSAttrib,
         options = tileOptions(minZoom = 8)
       ) %>%
       addLayersControl(
@@ -67,7 +63,7 @@ shiny_server <- function(session, input, output){
           lng = plots$Long,
           lat = plots$Lat,
           layerId = plots$Plot_Name, 
-          label = if(input$forestMap_zoom > 11) plots$Plot_Name else NULL,
+          label = if(input$forestMap_zoom > 11) plots$plot_num else NULL,
           labelOptions = labelOptions(noHide = TRUE, 
                                       textOnly = TRUE, 
                                       direction = "bottom", 
@@ -148,9 +144,13 @@ shiny_server <- function(session, input, output){
     park_plots <- plots %>% filter(Unit_Code %in% input$park) %>% select(Plot_Name) %>% unique()
     
     
-    zoom_level <- case_when(input$park %in% c("ASIS") ~ 9.5,
-                            input$park %in% c("APCO", "BOWA", "GEWA", "HOFU", "VAFO", "PETE") ~ 15, 
-                            input$park %in% c("COLO", "FRSP", "GETT", "RICH") ~ 13,
+    zoom_level <- case_when(input$park %in% c("ASIS", "RICH") ~ 9.5,
+                            input$park %in% c("FRSP", "COLO") ~ 11,
+                            input$park %in% c("GETT", "PETE") ~ 11.5,
+                            input$park %in% c("APCO", "VAFO") ~ 12.5, 
+                            input$park %in% c("BOWA", "GEWA", "HOFU", "THST") ~ 13.5,
+                            input$park %in% c("SAHI") ~ 15,
+                            input$park %in% c("RICH") ~ 16, 
                             TRUE ~ 12.5)
     
     updateSelectizeInput(session, 'plot',

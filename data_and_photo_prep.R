@@ -187,8 +187,15 @@ process_image <- function(import_name, export_name){
 
 # Run through all photos. Can break into even smaller chunks of bogs down computer too much
 num_photos <- nrow(name_df) #1570
+rownames(name_df) <- 1:nrow(name_df)
 head(name_df)
+
+#THST_130_UL_20210830.JPG photo is corrupt. Skipping it in the queue (row number 1242 in 2024)
+skip <- as.numeric(rownames(name_df[which(name_df$photo_name == "THST_130_UL_20210830.JPG"),]))
 
 map2(name_df$full_name[1:500], name_df$photo_name[1:500], ~process_image(.x,.y), .progress = T)
 map2(name_df$full_name[501:1000], name_df$photo_name[501:1000], ~process_image(.x,.y), .progress = T)
-map2(name_df$full_name[1001:num_photos], name_df$photo_name[1001:num_photos], ~process_image(.x,.y), .progress = T)
+map2(name_df$full_name[1001:skip-1], name_df$photo_name[1001:skip-1], ~process_image(.x,.y), .progress = T)
+map2(name_df$full_name[skip+1:num_photos], name_df$photo_name[skip+1:num_photos], ~process_image(.x,.y), .progress = T)
+
+# Once THST-130 is resampled, update code, so the UL photopoint isn't skipped.
