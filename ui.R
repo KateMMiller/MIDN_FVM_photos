@@ -70,7 +70,12 @@ shinyUI(
              tags$div(title = "Reset the Map",
                       actionButton('reset_view', "Reset Map", 
                                    style="color:white;background-color: #5F9EA0; 
-                         border-color:#436e70;font-size:11px"))
+                         border-color:#436e70;font-size:11px;width:90px")),
+             
+             tags$div(title = "About",
+                      actionButton("view_about", "About", 
+                                   style="color:white:background-color: #484848;
+                                     border-color:#436e70;font-size:11px;width:90px"))
       ),
       
       column(10, style = "padding: 1px 20px 10px 5px", 

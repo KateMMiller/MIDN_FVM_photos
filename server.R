@@ -2,9 +2,18 @@ library(shiny)
 library(leaflet)
 library(htmltools)
 library(dplyr)
+library(shinyjs)
+library(htmltools)
 
 shiny_server <- function(session, input, output){
+
+  observeEvent(input$view_about, {
+    showModal(modalDialog(
+      includeHTML("./www/About.html")
+    ))
+  })
   
+    
   output$plot_df <- renderUI({
     plots2 <- plots %>% filter(Unit_Code %in% input$park) %>% droplevels()
     selectizeInput(inputId = 'plot', 
@@ -68,7 +77,7 @@ shiny_server <- function(session, input, output){
                                       textOnly = TRUE, 
                                       direction = "bottom", 
                                       textsize = "11px"),
-          fillColor = "ForestGreen",
+          fillColor = "#33CB46",
           fillOpacity = 0.75,
           weight = 1,
           color = "DimGrey"
